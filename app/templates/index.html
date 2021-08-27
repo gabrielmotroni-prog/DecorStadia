@@ -1,0 +1,19 @@
+{% extends "base.html"%} <!-- ja esta trazendo todo html e sua estrutura-->
+
+{% block title %}HOME{% endblock %} 
+
+     
+
+
+    {% block conteudo %}
+    <!--incluindo os arquivos componetes na 1 forma: via html-->
+    <!--incluido notificao-->
+    {%include 'components/notifications.html'%}
+    <div class="container">
+        <div class="form-group text-center p-5">
+            <img src="\static\logo_transporte.png" width="300px" alt="SYSTADIA-LOGO"
+                class="img-thumbnail img-responsive">
+        </div>
+    </div>
+
+    {% endblock %}
