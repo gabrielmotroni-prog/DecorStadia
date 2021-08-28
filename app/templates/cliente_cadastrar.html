@@ -76,16 +76,24 @@
         });
     </script>
     <div class="container"> <!--div: classe para divisao e melhor organizacao no html--> <!--container eh uma estiliacao para interagem com usuario-->
-        <h2 class="h2 text-primary">Cadastrar Aluno</h2>
-        <form action="/salvar_cadastro_aluno" method="POST" id="cadastro_aluno" name="frm_cadastro_aluno" class="ml-3 mb-3"> <!--action aciona a rota no caso vamos acionar a rota de salvamento/ post pq na rota se espera post-->
+        <h2 class="h2 text-primary">Cadastrar Cliente</h2>
+        <form action="/cliente/cadastrar/salvar" method="POST" id="cadastrar_cliente" name="frm_cadastrar_cliente" class="ml-3 mb-3"> <!--action aciona a rota no caso vamos acionar a rota de salvamento/ post pq na rota se espera post-->
             <!--grupo de formulario-->
             <div class="form-group">
-                <label for="nome_aluno">Nome:</label> <!-- rotulo para os campos-->
-                <input type="text" class="form-control" name="nome_aluno" required>        
+                <label for="nome_cliente">Nome Completo:</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="nome_cliente" required>        
             </div>
             <div class="form-group">
-                <label for="ra_aluno">RA:</label> <!-- rotulo para os campos-->
-                <input type="text" class="form-control" name="ra_aluno" required>        
+                <label for="email_cliente">E-Mail:</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="email_cliente" required>        
+            </div>
+            <div class="form-group">
+                <label for="telefone_celular">Celular:</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="telefone_celular" required>        
+            </div>
+            <div class="form-group">
+                <label for="CPF_cliente">CPF</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="CPF_cliente"><!-- min e max estipula minimo e maximo para o campo-->
             </div>
             <div class="form-group">
                 <label for="cep">CEP:</label> <!-- rotulo para os campos-->
@@ -110,47 +118,14 @@
               <!--grupo de formulario-->
             <div class="form-group">
                 <label for="data_nascimento">Data de Nascimento:</label> <!-- rotulo para os campos-->
-                <input type="date" class="form-control" name="data_nascimento" required><!-- min e max estipula minimo e maximo para o campo-->
+                <input type="date" class="form-control" name="data_nascimento_cliente" required><!-- min e max estipula minimo e maximo para o campo-->
             </div>
-            <div class="form-group">
-                <label for="cpf_aluno">CPF do Aluno</label> <!-- rotulo para os campos-->
-                <input type="text" class="form-control" name="cpf_aluno"><!-- min e max estipula minimo e maximo para o campo-->
-            </div>
-         <h3 class="h3 mt-5 text-secondary">Vincular Responsável</h3>      
-        <!-- DIV da TABELA de exibicao-->
-        <div class="mb-3" style="overflow: scroll; height: 310px; width: 100%;" align="center"> <!-- style>overflo>scroll permite criar tela de rolagem/ 100% eh a tabela ocupar toda horizontal do container-->
-            <table class="table table-bordered table-hover" id="id_tabela_listagem">
-                <thead> <!--cabecalho da tabela-->
-                    <tr><!--linha da tabela-->
-                        <th><a href="/ordenacao/codigo_responsavel/{{ordem}}">Codigo Responsavel</a></th> <!--titulo das colunas--><!--note que passamos o campo no parametro eo campo anteior vem com a listagem-->
-                        <th><a href="/ordenacao/nome_responsavel/{{ordem}}">Nome Responsavel</a></th>
-                        <th><a href="/ordenacao/telefone_principal/{{ordem}}">Telefone Principal</a></th>
-                        <th><a>Ações</a></th>
-                    </tr>
-                </thead>
-                <!--corpo da tabela-->
-                <tbody> <!--laco abaixo preeche a tabela-->
-                    {% for responsavel in responsaveis%}<!--interpolacao de execucao (pq executa codigo python)-->
-                        <tr><!-- cria uma linha para cada interacao/volta do laço for--> 
-                            <td nowrap="true"> <!--nowrape n quebra as linhas na exibicao dos dados/ td para cada coluna -->
-                                <a href="/selecao_responsavel/{{responsavel.codigo_responsavel}}">{{responsavel.codigo_responsavel}}</a>          
-                            </td>
-                            <td nowrap="true">{{responsavel.nome_responsavel}}</td><!--interpolacao de exibicao (pq exibe os valores do codigo python)-->
-                            <td nowrap="true">{{responsavel.telefone_principal}}</td>
-                            <td> <!--radio de seleção-->
-                                  <input type="radio" value="{{responsavel.codigo_responsavel}}" name="codigo_responsavel" id="resp_codigo" class="form-check" required>
-                            </td>
-                        </tr>
-                    {%endfor%}
-                </tbody>
-            </table>
-        </div>
         <div class="form-group text-center">
         <!--link em forma de botao que cancela e volta para /listagem-->
         <!--eh uma forma de evitar funcao js simplesemente para redirecionar a pagina com as classes de botao do Bootstramp-->
-        <a href="/listagem_alunos" class="btn btn-secondary" role="button"> Cancelar</a>
+        <a href="/clientes" class="btn btn-secondary" role="button"> Cancelar</a>
         <!--botao salvar-->
-        <button type="submit" class="btn btn-success">Cadastrar Aluno</button> <!-- submit chama a funcao post do formulario que chama a rota-->
+        <button type="submit" class="btn btn-success">Cadastrar Cliente</button> <!-- submit chama a funcao post do formulario que chama a rota-->
         </div>
         </form>
     </div>
