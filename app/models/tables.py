@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 #aqui vamos contruido em python a estrutora da nossa tabela de banco que 
 # sera convertido para sql por meio do sqlalquemy que vai ser hospedado dentro do sql lite
 from app import db # essa variavel db esta vindo de __init__
@@ -52,7 +53,7 @@ class Cliente(db.Model):
     email_cliente = db.Column(db.String(200), nullable=False) 
     telefone_celular = db.Column(db.String(23), nullable=False) 
     
-    # construtor
+    # construtor : passa o objeto via self para ser usado no save
     def __init__(self, nome_cliente, cep_cliente, rua_cliente, bairro_cliente, data_nascimento_cliente,  CPF_cliente, email_cliente, telefone_celular):
 
         self.nome_cliente = nome_cliente
@@ -80,6 +81,17 @@ class Cliente(db.Model):
     def save_cliente(self): # ele eh auto inteligente, ja pega o objeto pelo self
         db.session.add(self)
         db.session.commit()
+
+    def update_cliente(self,nome_cliente,email_cliente,telefone_celular,CPF_cliente,cep_cliente,rua_cliente,bairro_cliente,data_nascimento_cliente):
+        self.nome_cliente = nome_cliente
+        self.email_cliente = email_cliente
+        self.telefone_celular = telefone_celular
+        self.CPF_cliente = CPF_cliente
+        self.cep_cliente = cep_cliente
+        self.rua_cliente = rua_cliente
+        self.bairro_cliente = bairro_cliente
+        self.data_nascimento_cliente = data_nascimento_cliente
+
 
 class Ambiente (db.Model):
     __tablename__ = 'Ambiente'
@@ -258,27 +270,39 @@ class ItemPedido (db.Model):
         db.session.add(self)
         db.session.commit()
 
-''' NAO IMPLEMENTADO AINDA
+
 class Servico (db.Model):
     __tablename__ = "Servico"
     codigo_servico = db.Column(db.Integer, primary_key=True);
-    codigo_pedido = db.Column(db.Integer, nullable=False);
-    qtd_item = db.Column(db.Integer,nullable=False);
+    codigo_profissinal = db.Column(db.Integer,  db.ForeignKey('Profissional.codigo_profissional'))
+    codigo_cliente = db.Column(db.Integer,  db.ForeignKey('Profissional.codigo_profissional'))
+    codigo_pedido = db.Column(db.Integer); # n obrigatorio
+    data_abertura = db.Column(db.DateTime, default=datetime.utcnow);
+    data_fechamento = db.Column(db.DateTime, default=datetime.utcnow);
+    status_servico = db.Column(db.Integer, nullable=False)
 
     #construtor
-    def __init__(self, codigo_pedido,qtd_item ):
+    def __init__(self, codigo_servico, codigo_profissinal,codigo_cliente,codigo_pedido, data_abertura,status_servico ):
+        self.codigo_servico = codigo_servico
+        self.codigo_profissinal = codigo_profissinal
+        self.codigo_cliente = codigo_cliente
         self.codigo_pedido = codigo_pedido
-        self.qtd_item = qtd_item
+        self.data_abertura = data_abertura
+        self.status_servico = status_servico
     
 
     @classmethod
-    def find_item_pedido(cls, codigo_pedido):
-        pedido = cls.query.filter_by(codigo_pedido=codigo_pedido).first()
-        if codigo_pedido:
-            return pedido
+    def find_servico(cls, codigo_servico):
+        servico = cls.query.filter_by(codigo_servico=codigo_servico).first()
+        if codigo_servico:
+            return codigo_servico
         return None
 
-    def save_item_pedido(self): 
+    def save_codigo_servico(self): 
         db.session.add(self)
         db.session.commit()
+
+
+'''
+status servico
 '''
