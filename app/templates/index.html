@@ -1,4 +1,4 @@
-{% extends "base.html"%} <!-- ja esta trazendo todo html e sua estrutura-->
+{% extends "base.html"%}  <!-- ja esta trazendo todo html e sua estrutura -->
 
 {% block title %}HOME{% endblock %} 
 
@@ -6,13 +6,10 @@
 
 
     {% block conteudo %}
-    <!--incluindo os arquivos componetes na 1 forma: via html-->
-   <figure>
-    <img src="/app/templates/prateleiras.jpg" width="300px" alt="" class="img-thumbnail img-responsive" vertical-align="center">
-
-   </figure>
+    <!-- incluindo os arquivos componetes na 1 forma: via html -->
+  
     
-    <!--incluido notificao-->
+  <!--   incluido notificao -->
     {%include 'components/notifications.html'%}
     <div class="container">
         <div class="form-group text-center p-5">
