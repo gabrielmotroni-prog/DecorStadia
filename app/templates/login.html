@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login</title>
+
+    <!-- integração login Google-->
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="861493702963-f42rn1p8oq2jpc0jk65gh066mq3o55on.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script> 
+
+</head>
+
+<style>
+    body {
+        background: #c68c53 }
+
+    section {
+        background: #993333;
+        color: white;
+        border-radius: 1em;
+        padding: 13em;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%) }
+
+        div {
+            background-image: url('/app/images/AdobeStock_2923012_Preview.jpeg');
+            }
+
+  </style>
+  <section>
+
+    <h1>Decor Stadia</h1>
+    <p>Login</p>
+        
+    <!-- integração login Google-->
+    <p><div class="g-signin2" data-onsuccess="onSignIn"></div></p><!-- botão Google-->
+    
+    <script>
+        function onSignIn(googleUser) {
+          // Useful data for your client-side scripts:
+          var profile = googleUser.getBasicProfile();
+          console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+          console.log('Full Name: ' + profile.getName());
+          console.log('Given Name: ' + profile.getGivenName());
+          console.log('Family Name: ' + profile.getFamilyName());
+          console.log("Image URL: " + profile.getImageUrl());
+          console.log("Email: " + profile.getEmail());
+  
+          // The ID token you need to pass to your backend:
+          var id_token = googleUser.getAuthResponse().id_token;
+          console.log("ID Token: " + id_token);
+        }
+      </script>
+  </section>
+
+<body>
+  <!--  <img class="displayed" src="/app/images/prateleiras.jpg" alt="3 prateleiras com itens de decoração">
+-->  
+
+    
+</body>
+</html>
+
+
+
+
+
+

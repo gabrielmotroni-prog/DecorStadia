@@ -11,3 +11,4 @@ python run.py db upgrade # iremos tansferir essa migracao para o banco sqlite
 cls: limpa o terminal
 cd: para navegar nas pastas
 comentario HTML: Shift+ Alt+A
+!+TAB: criar toda estrutura HTML
