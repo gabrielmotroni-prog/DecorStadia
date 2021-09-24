@@ -107,8 +107,6 @@ def opcao1(mensagem):
 @bot.message_handler(commands=['FeedBack'])
 def opcao1(mensagem):
     bot.send_message(mensagem.chat.id, 'Por favor, mande seu Feed Back abaixo')
-    if mensagem.chat.text != 'Feedback':
-        bot.send_message(mensagem.chat.id, 'Obrigado')
     
 
 @bot.message_handler(commands=["Loja"])
