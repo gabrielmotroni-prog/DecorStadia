@@ -1,59 +1,34 @@
 # -*- coding: utf-8 -*-
-
-
-
 #arquivo princpal da regra de negocio das nossas aplicacao
 #ira controlar toda nossas nossa aplicacao por meio das rotas de protocolo http
 
-from flask import render_template, request, url_for, redirect, flash, jsonify,session, abort, redirect
+from flask import render_template, request, url_for, redirect, flash, jsonify
 from app import  app, db
 from datetime import datetime, timedelta
+
+#Biblioteca para o bot do telegram
+import telebot
 
 #from app.models.tables import Pessoas
 from app.models.tables import *
 
-#-------------------------- login --------------------------#
-#-------------------------- login --------------------------#
-#-------------------------- login --------------------------#
+#configurações do bot
+chave_api = "2031294195:AAFB3OtBVLEtDfAzS7SVgXuxBEnhNPFYwmY"
 
-#google
-import os
-import pathlib
-
-import requests
-from google.oauth2 import id_token
-from google_auth_oauthlib.flow import Flow
-from pip._vendor import cachecontrol
-import google.auth.transport.requests
-
-app.secret_key = "CodeSpecialist.com"
-
-
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-GOOGLE_CLIENT_ID = "646561352344-k00r23h9lfel4s1spjpetto3bcvr57r0.apps.googleusercontent.com"
-client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
-
-flow = Flow.from_client_secrets_file(
-    client_secrets_file=client_secrets_file,
-    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
-    redirect_uri="http://127.0.0.1:5000/callback"
-)
+bot = telebot.TeleBot(chave_api)
 
 
 #-------------------------- index --------------------------#
 #-------------------------- index --------------------------#
 #-------------------------- index --------------------------#
 
-#@app.route('/')
-#def login():
-#    return render_template('login.html')
+@app.route('/')
+def login():
+    return render_template('login.html')
 
-#@app.route('/index')
-#def index():
-#    return render_template('index.html')
+@app.route('/index')
+def index():
+    return render_template('index.html')
 
 #-------------------------- cliente --------------------------#
 #-------------------------- cliente --------------------------#
@@ -119,62 +94,48 @@ def cliente_editar_salvar():
 
     return redirect(url_for("clientes"))
 
+#-------------------------- BOT --------------------------#
+#-------------------------- BOT --------------------------#
+#-------------------------- BOT --------------------------#
 
-#-------------------------- login --------------------------#
-#-------------------------- login --------------------------#
-#-------------------------- login --------------------------#
+@bot.message_handler(commands=["Voltar"])
+def opcao1(mensagem):
+    msg = '''/Designer - Falar com nossos designers de interiores
+/Loja - Ir para a loja
+/FeedBack - Elogios, dúvidas, sugestões e reclamações'''
+    bot.send_message(mensagem.chat.id, msg)
 
-@app.route("/logar")
-def logar():
-    return render_template("login.html")
+@bot.message_handler(commands=['FeedBack'])
+def opcao1(mensagem):
+    bot.send_message(mensagem.chat.id, 'Por favor, mande seu Feed Back abaixo')
+    
 
-@app.route("/login")
-def login():
-    authorization_url, state = flow.authorization_url()
-    session["state"] = state
-    return redirect(authorization_url)
+@bot.message_handler(commands=["Loja"])
+def opcao1(mensagem):
+    msg = '''Em desenvolvimento
+/Voltar'''
+    bot.reply_to(mensagem, msg)
 
+@bot.message_handler(commands=["Designer"])
+def opcao1(mensagem):
+    msg = '''Gabriel: https://api.whatsapp.com/send?phone=5511846548844
 
-@app.route("/callback")
-def callback():
-    flow.fetch_token(authorization_response=request.url)
+Priscila: https://api.whatsapp.com/send?phone=5511246548741
 
-    if not session["state"] == request.args["state"]:
-        abort(500)  # State does not match!
+/Voltar'''
+    bot.reply_to(mensagem, msg)
 
-    credentials = flow.credentials
-    request_session = requests.session()
-    cached_session = cachecontrol.CacheControl(request_session)
-    token_request = google.auth.transport.requests.Request(session=cached_session)
+def mensagem_aberta(mensagem):
+        return True
 
-    id_info = id_token.verify_oauth2_token(
-        id_token=credentials._id_token,
-        request=token_request,
-        audience=GOOGLE_CLIENT_ID
-    )
+@bot.message_handler(func=mensagem_aberta)
+def responder(mensagem):
+    apresentacao = '''Olá, sou o Assistente Virtual do Decor Stadia, prazer! 😁
+Por favor, clicar na opção desejada:
 
-    session["google_id"] = id_info.get("sub")
-    session["name"] = id_info.get("name")
-    return redirect("/protected_area")
+/Designer - Falar com nossos designers de interiores
+/Loja - Ir para a loja
+/FeedBack - Elogios, dúvidas, sugestões e reclamações'''
+    bot.reply_to(mensagem, apresentacao)
 
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    #return redirect("index")
-    return redirect("logar")
-
-
-@app.route("/")
-def index():
-    #return "Hello World <a href='/login'><button>Login</button></a>"
-    return render_template("index.html")
-
-
-@app.route("/protected_area")
-#@login_is_required
-def protected_area():
-
-    #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
-    #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
-    return render_template("index.html", usuario_nome_completo=session['name'])
+bot.polling()
