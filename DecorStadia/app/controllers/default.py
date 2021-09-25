@@ -6,16 +6,9 @@ from flask import render_template, request, url_for, redirect, flash, jsonify
 from app import  app, db
 from datetime import datetime, timedelta
 
-#Biblioteca para o bot do telegram
-import telebot
-
 #from app.models.tables import Pessoas
 from app.models.tables import *
 
-#configurações do bot
-chave_api = "2031294195:AAFB3OtBVLEtDfAzS7SVgXuxBEnhNPFYwmY"
-
-bot = telebot.TeleBot(chave_api)
 
 
 #-------------------------- index --------------------------#
@@ -23,9 +16,11 @@ bot = telebot.TeleBot(chave_api)
 #-------------------------- index --------------------------#
 
 @app.route('/')
-#def login():
-#    return render_template('login.html')
+def login():
+    return render_template('login.html')
+
 @app.route('/index')
+@login_required
 def index():
     return render_template('index.html')
 
@@ -93,48 +88,26 @@ def cliente_editar_salvar():
 
     return redirect(url_for("clientes"))
 
-#-------------------------- BOT --------------------------#
-#-------------------------- BOT --------------------------#
-#-------------------------- BOT --------------------------#
 
-@bot.message_handler(commands=["Voltar"])
-def opcao1(mensagem):
-    msg = '''/Designer - Falar com nossos designers de interiores
-/Loja - Ir para a loja
-/FeedBack - Elogios, dúvidas, sugestões e reclamações'''
-    bot.send_message(mensagem.chat.id, msg)
+#-------------------------- facebook --------------------------#
+#-------------------------- facebook --------------------------#
+#-------------------------- facebook --------------------------#
 
-@bot.message_handler(commands=['FeedBack'])
-def opcao1(mensagem):
-    bot.send_message(mensagem.chat.id, 'Por favor, mande seu Feed Back abaixo')
-    
+@app.route('/me')
+@login_required
+def user():
+    return render_template('user.html', user=current_user)
 
-@bot.message_handler(commands=["Loja"])
-def opcao1(mensagem):
-    msg = '''Em desenvolvimento
-/Voltar'''
-    bot.reply_to(mensagem, msg)
+@app.route('/login-facebook')
+def login():
+    if current_user.is_anonymous():
+        return facebook.authorize(callback=url_for('facebook_authorized',
+            next=request.args.get('next') or request.referrer or None,
+            _external=True))
+    return redirect(url_for('.user'))
 
-@bot.message_handler(commands=["Designer"])
-def opcao1(mensagem):
-    msg = '''Gabriel: https://api.whatsapp.com/send?phone=5511846548844
-
-Priscila: https://api.whatsapp.com/send?phone=5511246548741
-
-/Voltar'''
-    bot.reply_to(mensagem, msg)
-
-def mensagem_aberta(mensagem):
-        return True
-
-@bot.message_handler(func=mensagem_aberta)
-def responder(mensagem):
-    apresentacao = '''Olá, sou o Assistente Virtual do Decor Stadia, prazer! 😁
-Por favor, clicar na opção desejada:
-
-/Designer - Falar com nossos designers de interiores
-/Loja - Ir para a loja
-/FeedBack - Elogios, dúvidas, sugestões e reclamações'''
-    bot.reply_to(mensagem, apresentacao)
-
-bot.polling()
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('.index'))
