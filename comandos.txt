@@ -2,6 +2,10 @@ pip install Flask
 pip install flask-sqlalchemy //utilizado para conexao com bancos de dados sql embarcado
 pip install flask-migrate //migracao dos dados - construcao dos nossas estrutrua de dados que sera convertida e migradaparao banco sql
 pip install flask-script // sera utiliado como apoio para termos mais recursos durante o deseolvimento
+pip install google-api-python-client
+pip install --upgrade google-api-python-client
+pip install google-auth-oauthlib
+pip install pytelegrambotapi
 
 python run.py runserver #ira  executar o server
 python run.py db init #criar diretorio de migracao com toda estrtura de arquivo para isso( cria migration e app_cache )
@@ -10,5 +14,5 @@ python run.py db upgrade # iremos tansferir essa migracao para o banco sqlite
 
 cls: limpa o terminal
 cd: para navegar nas pastas
-comentario HTML: Shift+ Alt+A
+comentario HTML,PY: Shift+ Alt+A
 !+TAB: criar toda estrutura HTML

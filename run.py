@@ -16,6 +16,4 @@ if __name__ == '__main__':
 
 #para criar a estrutura esse manager precisa vir antes do __name__
 #ja para rodar no heroku precisa colocar dps do __name__
-
-
     
