@@ -7,7 +7,15 @@
 
 from flask import render_template, request, url_for, redirect, flash, jsonify,session, abort, redirect
 from app import  app, db
-from datetime import datetime, timedelta
+from telebot import types
+
+#Biblioteca para o bot do telegram
+import telebot
+import urllib
+
+#configurações do bot
+chave_api = "2031294195:AAGLZVrZ4pA5w45u4fmpyRq"
+bot = telebot.TeleBot(chave_api)
 
 #from app.models.tables import Pessoas
 from app.models.tables import *
@@ -178,3 +186,103 @@ def protected_area():
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
     return render_template("index.html", usuario_nome_completo=session['name'])
+
+#-------------------------- BOT --------------------------#
+#-------------------------- BOT --------------------------#
+#-------------------------- BOT --------------------------#
+
+#Opção de fotos das decorações
+def finalidades(mensagem):
+    imagens = {'HomeOffice': ['D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/homeoffice1.jpg', 'D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/homeoffice2.png'],
+                'Sala': ['D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/sala1.jpg', 'D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/sala2.jpg'],
+                'Suite': ['D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/suite1.jpg', 'D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/suite2.jpg'],
+                'Quarto': ['D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/quarto1.jpg', 'D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/quarto2.jpg']
+                }
+    if mensagem.text == '/HomeOffice':
+        bot.send_photo(mensagem.chat.id, photo=open(imagens['HomeOffice'][0], 'rb'))
+        bot.send_photo(mensagem.chat.id, photo=open(imagens['HomeOffice'][1], 'rb'))
+    elif mensagem.text == '/Sala':
+        bot.send_photo(mensagem.chat.id, photo=open(imagens['Sala'][0], 'rb'))
+        bot.send_photo(mensagem.chat.id, photo=open(imagens['Sala'][1], 'rb'))
+    elif mensagem.text == '/Suite':
+        bot.send_photo(mensagem.chat.id, photo=open(imagens['Suite'][0], 'rb'))
+        bot.send_photo(mensagem.chat.id, photo=open(imagens['Suite'][1], 'rb'))
+    elif mensagem.text == '/Quarto':
+        bot.send_photo(mensagem.chat.id, photo=open(imagens['Quarto'][0], 'rb'))
+        bot.send_photo(mensagem.chat.id, photo=open(imagens['Quarto'][1], 'rb'))
+  
+
+
+
+@bot.message_handler(func=finalidades)
+def responder_finalidades(mensagem):
+    return True
+
+@bot.message_handler(commands=["Voltar"])
+def menu_principal(mensagem):
+    msg = '''/Decoracoes - Ver decorações realizadas dos nossos clientes
+/Designer - Falar com nossos designers de interiores
+/Loja - Ir para a loja'''
+    fileira = types.ReplyKeyboardMarkup(row_width=2)
+    b1 = types.KeyboardButton('/Decoracoes')
+    b2 = types.KeyboardButton('/Designer')
+    b3 = types.KeyboardButton('/Loja')
+    fileira.add(b1, b2, b3)
+    bot.reply_to(mensagem, msg, reply_markup=fileira)
+
+@bot.message_handler(commands=['Decoracoes'])
+def decoracoes(mensagem):
+    msg = '''Por favor, escolha qual finalidade:
+    '''
+    fileira = types.ReplyKeyboardMarkup(row_width=2)
+    b1 = types.KeyboardButton('/HomeOffice')
+    b2 = types.KeyboardButton('/Sala')
+    b3 = types.KeyboardButton('/Suite')
+    b4 = types.KeyboardButton('/Quarto')
+    b5 = types.KeyboardButton('/Voltar')
+    fileira.add(b1, b2, b3, b4, b5)
+    bot.send_message(mensagem.chat.id, msg, reply_markup=fileira)
+    
+@bot.message_handler(commands=["Loja"])
+def loja(mensagem):
+    msg = '''Em desenvolvimento
+/Voltar'''
+    bot.reply_to(mensagem, msg)
+
+@bot.message_handler(commands=["Designer"])
+def designers(mensagem):
+    msg = '''Gabriel: https://api.whatsapp.com/send?phone=5511846548844
+
+Priscila: https://api.whatsapp.com/send?phone=5511246548741
+
+Bruno: https://api.whatsapp.com/send?phone=5512246548223
+
+/Voltar'''
+    bot.reply_to(mensagem, msg)
+
+@bot.message_handler(commands=["start"])
+def apresentacao(mensagem):
+    msg = '''Olá, sou o Assistente Virtual do Decor Stadia, prazer! 😁
+Por favor, clicar na opção desejada:
+
+/Decoracoes - Ver decorações realizadas para os nossos clientes
+/Designer - Falar com nossos designers de interiores
+/Loja - Ir para a loja
+'''
+    fileira = types.ReplyKeyboardMarkup(row_width=2)
+    b1 = types.KeyboardButton('/Decoracoes')
+    b2 = types.KeyboardButton('/Designer')
+    b3 = types.KeyboardButton('/Loja')
+    fileira.add(b1, b2, b3)
+    bot.reply_to(mensagem, msg, reply_markup=fileira)
+
+def qualquer_mensagem(mensagem):
+    return True
+
+@bot.message_handler()
+def responder(mensagem):
+    comandos = ['/Decoracoes', '/Designer', '/Loja', '/HomeOffice', '/Sala', '/Suite', '/Quarto', '/Voltar']
+    if mensagem.text not in comandos:
+        bot.send_message(mensagem.chat.id, "Desculpe, não reconheço este comando")
+
+bot.polling()
