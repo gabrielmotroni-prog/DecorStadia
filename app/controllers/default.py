@@ -124,12 +124,12 @@ def cliente_editar_salvar():
 #-------------------------- login --------------------------#
 #-------------------------- login --------------------------#
 
-@app.route("/logar")
-def logar():
-    return render_template("login.html")
-
 @app.route("/login")
 def login():
+    return render_template("login.html")
+
+@app.route("/logar") #rota logar dentro do template login para efetivar acesso
+def logar():
     authorization_url, state = flow.authorization_url()
     session["state"] = state
     return redirect(authorization_url)
@@ -155,14 +155,15 @@ def callback():
 
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
-    return redirect("/home")
+    #return redirect(url_for(index))
+    return redirect(url_for("protected_area")) #direcionar para tela principal, porem com a rota protected_area . Ela utiliza o objeto session
 
 
 @app.route("/logout")
 def logout():
-    session.clear()
+    session.clear() # limpa objeto
     #return redirect("index")
-    return redirect("logar")
+    return redirect(url_for("login") ) #direcionar para tela de login 
 
 
 @app.route("/")
@@ -170,11 +171,10 @@ def index():
     #return "Hello World <a href='/login'><button>Login</button></a>"
     return render_template("index.html")
 
-
-@app.route("/home")
+@app.route("/protected_area")
 #@login_is_required
 def protected_area():
-
+    
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
     return render_template("index.html", usuario_nome_completo=session['name'])
