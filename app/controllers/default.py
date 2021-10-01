@@ -171,7 +171,7 @@ def index():
     #return "Hello World <a href='/login'><button>Login</button></a>"
     return render_template("index.html")
 
-@app.route("/protected_area")
+@app.route("/protected_area") #
 #@login_is_required
 def protected_area():
     
