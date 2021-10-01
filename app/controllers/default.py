@@ -155,7 +155,7 @@ def callback():
 
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
-    return redirect("/protected_area")
+    return redirect("/home")
 
 
 @app.route("/logout")
@@ -171,7 +171,7 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/protected_area")
+@app.route("/home")
 #@login_is_required
 def protected_area():
 
