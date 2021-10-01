@@ -155,7 +155,7 @@ def callback():
 
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
-    #return redirect(url_for(index))
+    #return redirectgitgit(url_for(index))
     return redirect(url_for("protected_area")) #direcionar para tela principal, porem com a rota protected_area . Ela utiliza o objeto session
 
 
