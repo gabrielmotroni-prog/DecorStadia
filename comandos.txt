@@ -17,13 +17,19 @@ docker image build -t gabrielmotroni/decor-stadia:v1 .
  docker container run -it gabrielmotroni/decor-stadia:v1
 
 #-----------------------------------------------------------------------------------------------------------
-# iniciar aplicacao
+# iniciar aplicacao pela 1ª vez do zero
 #-----------------------------------------------------------------------------------------------------------
 
 python run.py runserver #ira  executar o server
 python run.py db init #criar diretorio de migracao com toda estrtura de arquivo para isso( cria migration e app_cache )
 python run.py db migrate # iremos realizar a migracao de fato
 python run.py db upgrade # iremos tansferir essa migracao para o banco sqlite
+
+#-----------------------------------------------------------------------------------------------------------
+# iniciar aplicacao
+#-----------------------------------------------------------------------------------------------------------
+
+pip install -r requirements.txt
 
 #-----------------------------------------------------------------------------------------------------------
 # dicas para terminal

@@ -25,3 +25,5 @@ RUN pip install -r requirements.txt
 ENTRYPOINT [ "flask"]
 CMD [ "run", "--host", "0.0.0.0" ] 
 # flask run --host '0.0.0.0'
+
+#docker run -p 5000:5000 -d *-p porta 5000 do pc com 5000 do container
