@@ -8,6 +8,7 @@
 from flask import render_template, request, url_for, redirect, flash, jsonify,session, abort, redirect
 from app import  app, db
 from telebot import types
+import os
 
 #Biblioteca para o bot do telegram
 import telebot
@@ -23,6 +24,13 @@ from app.models.tables import *
 #-------------------------- login --------------------------#
 #-------------------------- login --------------------------#
 #-------------------------- login --------------------------#
+
+#-------------variavel de ambiente
+from dotenv import load_dotenv
+load_dotenv()  # obtém variáveis ​​de ambiente de .env.
+MY_ENV_VAR = os.getenv('MY_ENV_VAR')
+print(MY_ENV_VAR)
+#--------------- 
 
 #google
 import os
@@ -40,7 +48,7 @@ app.secret_key = "CodeSpecialist.com"
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
+#subsituir  o cliente id abaixo por uma variavel de ambiente
 GOOGLE_CLIENT_ID = "646561352344-k00r23h9lfel4s1spjpetto3bcvr57r0.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
@@ -160,11 +168,11 @@ def callback():
         request=token_request,
         audience=GOOGLE_CLIENT_ID
     )
-
+    session["picture"] = id_info.get("picture")
     session["google_id"] = id_info.get("sub")
     session["name"] = id_info.get("name")
-    #return redirectgitgit(url_for(index))
-    return redirect(url_for("protected_area")) #direcionar para tela principal, porem com a rota protected_area . Ela utiliza o objeto session
+    print(session)
+    return redirect(url_for("protected_area")) #direcionar para tela principal, porem com a rota protected_area . Ela ira utiliza o objeto session
 
 
 @app.route("/logout")
@@ -185,7 +193,7 @@ def protected_area():
     
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
-    return render_template("index.html", usuario_nome_completo=session['name'])
+    return render_template("index.html", usuario_nome_completo=session['name'], foto_usuario=session['picture'])
 
 #-------------------------- BOT --------------------------#
 #-------------------------- BOT --------------------------#
