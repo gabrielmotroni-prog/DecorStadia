@@ -30,6 +30,7 @@ python run.py db upgrade # iremos tansferir essa migracao para o banco sqlite
 #-----------------------------------------------------------------------------------------------------------
 
 pip install -r requirements.txt
+python run.py runserver
 
 #-----------------------------------------------------------------------------------------------------------
 # dicas para terminal

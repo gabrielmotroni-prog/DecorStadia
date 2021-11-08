@@ -14,8 +14,8 @@
     <ul class="navbar-nav">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      
-          Cliente
+          <i class="fa fa-child">
+          Cliente</i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="{{url_for('cliente_cadastrar')}}">Cadastrar Cliente</a>
@@ -24,7 +24,8 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Produto
+          <i class="fa fa-gift">
+            Produto</i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="#">Cadastrar Produto</a>
@@ -33,7 +34,8 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Pedido
+         <i class="fa fa-shopping-cart">
+            Pedido </i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="#">Cadastrar Pedido</a>
@@ -42,7 +44,8 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Serviços
+          <i class="fa fa-wrench">
+            Serviços</i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="#">Cadastrar Serviços</a>
@@ -51,25 +54,35 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Ambientes
+          <i class="">
+            Ambientes </i>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="#">Cadastrar Ambientes</a>
           <a class="dropdown-item" href="#">Lista de Ambientes</a>
         </div>
-      </li>
+        </li>
+        
+        <div class="container">
+          <div class="navbar-header">
+        <li class="nav-item dropdown">
+          <a class="nav-link" >
+            <img src="/app/templates/icons/telegrama.png" title="Fale Conosco" alt="Fale Conosco">
+              
+              
+          </a>
+        </li>
+          </div></div>
     </ul>
   </div>
-  <nav class="navbar navbar-light bg-light">
-    <form class="form-inline">
-      <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
-    </form>
-    {%if usuario_nome_completo is not none %}
-        {{usuario_nome_completo}}
+    <div >
+        <nav class="text-center" ><!--nav usuario-->
+          <p >Olá, {{usuario_nome_completo}} </p>
+          <img  src="{{foto_usuario}}" alt="Foto Usuario" width=30px height=30px padding-left="10px">
+        </nav>
+    </div>
+      <div>
         <a href='/logout' role="button" class="btn btn-ligth">Sair</a>    
-    {%else%}
-        <p>acessar</p>
-    {%endif%}
+      </div>
   </nav>
 </nav>
