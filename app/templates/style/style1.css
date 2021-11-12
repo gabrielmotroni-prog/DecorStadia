@@ -1,0 +1,10 @@
+
+body{
+    background-color: #c68c53;    
+    }
+
+#background{
+    width: 400px;
+    height: 300px;
+    background-image: url=("C:/Users/Prisc/OneDrive/Documentos/FACULDADE IMPACTA SI NOTURNO/5º SEM CURSO 2º SEM 2021/6 - Desenvolvimento de S.I/DecorStadia/app/templates/images/madeira.JPEG");
+}

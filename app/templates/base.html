@@ -4,10 +4,16 @@
 
     <meta charset="utf-8">
     <!--visualizao 100% para facilitar a visualizao em todos os tipos de dispositivos-->
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--link de importacao css bootstrap-->
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
      <!--importacao js bootstrap-->
+
+     <link rel="stylesheet" type="text/css" href="file:///C:/Users/Prisc/OneDrive/Documentos/FACULDADE%20IMPACTA%20SI%20NOTURNO/5%C2%BA%20SEM%20CURSO%202%C2%BA%20SEM%202021/6%20-%20Desenvolvimento%20de%20S.I/DecorStadia/app/templates/style/style1.css" />
+     <!-- importação css -->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -38,8 +44,10 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap.min.css"> 
     -->
     <!--plugin jquery datable- CSS-->
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
     <!--plugin jquery datable- JS-->
+
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <!-- referencia nossas tabela para funcao plugin datatable jquey E muda propriedades do plugin-->
     
@@ -76,20 +84,14 @@
       } );
   } );
 
-    // Select2 - dropdown com pequisa
+    // Select2 - dropdown com pesquisa
     $(document).ready(function() {
         $('.dropdown_pesquisa').select2();
     });
   </script>
 </head>
-<style>
 
-    body{
-        background-color: #c68c53;
-        
-    }
-</style>
-<body >   
+<body>   
 
     <!--incluindo menu principal-->
     {%include 'nav_menu.html'%}
