@@ -77,7 +77,7 @@
         });
     </script>
     <div class="container"> <!--div: classe para divisao e melhor organizacao no html--> <!--container eh uma estiliacao para interagem com usuario-->
-        <h2 class="h2 text-primary">Cadastrar Cliente</h2>
+        <h2 class="h2 text-primary" id=title-red>Cadastrar Cliente</h2>
         <form action="/cliente/cadastrar/salvar" method="POST" id="cadastrar_cliente" name="frm_cadastrar_cliente" class="ml-3 mb-3"> <!--action aciona a rota no caso vamos acionar a rota de salvamento/ post pq na rota se espera post-->
             <!--grupo de formulario-->
             <div class="form-group">
@@ -130,4 +130,5 @@
         </div>
         </form>
     </div>
+    <div id="background">  
     {% endblock %}
