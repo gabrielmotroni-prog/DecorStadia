@@ -10,55 +10,49 @@
     <!--conteudo da pagina-->
     <!--container esta centralizando todo conteudo no meio-->
     <div class="container"> <!--div: classe para divisao e melhor organizacao no html--> <!--container eh uma estiliacao para interagem com usuario-->
-        <h2 class="h2 text-primary">Lista de Produtos</h2>
-        <a href="{{url_for('produto_cadastrar')}}" class="btn btn-light btn-link mb-4 mt-3" role="button">Cadastrar Produto</a>
-		<form action="/consulta_aluno" method="POST" name="frm_consulta_aluno" class="ml-3 mb-5">
-            <div class="form-group"><!--vamos dubdividir em mais grupos-->
-                <div class="row"> <!--todo conteudo aqui seja exibido em uma linha-->
-                    <select class="form-control col-md-2" name="campo"><!--col: ocuparar so dusa colunas de espacamento e md eh espacamento--> <!-- esse 'campo' e seus values abaixo sao usados em uma rota-->
-                        <option value="nome">Ativo</option> <!--nome das colunas-->
-                        <option value="ra_aluno">Inativo</option> <!--nome das colunas-->
-                    </select> 
-                    <button type="submit" class="btn btn-success ml-1">Consultar</button> <!--esse btn submit dispara o post do form para a rota-->                </div>
-            </div> 
-        </form>
+        <h2 class="h2 text-primary mt-5 mb-3">Lista de Produtos</h2>
         <!-- DIV da TABELA de exibicao-->
-        <div style="overflow: scroll; height: 410px; width: 100%;" align="center"> <!-- style>overflo>scroll permite criar tela de rolagem/ 100% eh a tabela ocupar toda horizontal do container-->
+        <div style="overflow: scroll; height: 490px; width: 109%;" align="center"> <!-- style>overflo>scroll permite criar tela de rolagem/ 100% eh a tabela ocupar toda horizontal do container-->
             <table class="table table-bordered table-hover" id="id_tabela_listagem">
                 <thead> <!--cabecalho da tabela-->
                     <tr><!--linha da tabela-->
-                        <th><a href="#">Código Produto</a></th> <!--titulo das colunas--><!--note que passamos o campo no parametro eo campo anteior vem com a listagem-->
+                        <th><a href="#">Foto</a></th> <!--titulo das colunas--><!--note que passamos o campo no parametro eo campo anteior vem com a listagem-->
                         <th><a href="#">Descrição</a></th>
+                        <th><a href="#">Preço</a></th>
                         <th><a href="#">Quantidade</a></th>
-                        <th><a href="#">Categoria</a></th>
+                        <th><a href="#">Vendedor</a></th>
+                        <th><a href="#">Reputaçao</a></th>
                         <th><a>Ações</a></th>
                     </tr>
                 </thead>
                 <!--corpo da tabela-->
                 <tbody> <!--laco abaixo preeche a tabela-->
-                    {% for produto in produtos%}<!--interpolacao de execucao (pq executa codigo python)-->
+                    {% for produto in produtos_m%}<!--interpolacao de execucao (pq executa codigo python)-->
                         <tr><!-- cria uma linha para cada interacao/volta do laço for--> 
-                            <td nowrap="true"> <!--nowrape n quebra as linhas na exibicao dos dados/ td para cada coluna -->
-                                <a href="/produto/{{produto.codigo_produto}}">{{produto.codigo_produto}}</a>          
+                            <td nowrap="true" class="btn btn-white" data-toggle="modal" data-target=".bd-example-modal-lg"> <!--nowrape n quebra as linhas na exibicao dos dados/ td para cada coluna -->
+                                <img style="width: 110px" src="{{produto['thumbnail']}}" alt="sem imagem">       
                             </td>
-                            <td nowrap="true">{{produto.descricao_produto}}</td><!--interpolacao de exibicao (pq exibe os valores do codigo python)-->
-                            <td nowrap="true">{{produto.qtd_estoque}}</td>
-                            <td nowrap="true">{{produto.descricao_categoria_produto }}</td>
-                            <td> <!--botao edicao-->
-                                <a href="/produto/editar/{{produto.codigo_produto}}" class="btn btn-primary" role="button">Editar</a> <!-- role button- assumira papel de im botao-->
+                            <td nowrap="true">{{produto['title']}}</td><!--interpolacao de exibicao (pq exibe os valores do codigo python)-->
+                            <td nowrap="true">R${{produto['price']}}</td>
+                            <td nowrap="true">{{produto['available_quantity']}}</td>
+                            <td nowrap="true"><a href="{{produto['seller']['permalink']}}" target="_blank">{{produto['seller']['nickname']}}</a> </td>
+                            <td nowrap="true">{{produto['seller']['seller_reputation']['power_seller_status']}}</td>
+                            <td> <!--botao comprar-->
+                                <a href="{{produto['permalink']}}" class="btn btn-success" role="button"  target="_blank">Comprar</a> <!-- role button- assumira papel de im botao-->
                            </td>       
                         </tr>
                     {%endfor%}
                 </tbody>
             </table>
         </div> 
-        <!--botao funcao js imprimir relatorio-->
-        <!--utilizamos 'id' para maniulador no JS--> 
-        <!-- colocamos display none para n ficar visivel ao usuario-->
-        <!--os dados abaixo serao usados pe JS-->
-        
-
-       
+        <!-- Large modal -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                ...
+            </div>
+        </div>
+        </div>
 
     {% endblock %}
     

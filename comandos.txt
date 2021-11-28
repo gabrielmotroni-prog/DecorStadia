@@ -38,3 +38,17 @@ cls: limpa o terminal
 cd: para navegar nas pastas
 comentario HTML: Shift+ Alt+A
 !+TAB: criar toda estrutura HTML
+cls: limpa o terminal
+
+#-----------------------------------------------------------------------------------------------------------
+# ambiente virtual
+#-----------------------------------------------------------------------------------------------------------
+
+1) criar
+virtualenv venv
+
+2) ativar
+source venv/bin/activate
+
+3) instalar dependecias
+pip install -r requirements.txt

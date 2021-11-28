@@ -40,6 +40,19 @@ class Produto(db.Model):
         self.valor_unitario_produto = valor_unitario_produto
         self.codigo_categoria_produto = codigo_categoria_produto
 
+    @classmethod
+    def find_produto(cls, codigo_produto):
+        produto = cls.query.filter_by(codigo_produto=codigo_produto).first()
+        if produto: # equivalente a: se existe cliente   
+            return produto
+        return None
+        #para utilizar o metodo filter_by demandouo @classmethod - metodo da clase
+
+    @classmethod
+    def list_produtos(cls):
+        produtos = cls.query.all()
+        return produtos
+
 
 class Cliente(db.Model):
     __tablename__= 'Cliente'

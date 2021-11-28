@@ -5,17 +5,29 @@
 #arquivo princpal da regra de negocio das nossas aplicacao
 #ira controlar toda nossas nossa aplicacao por meio das rotas de protocolo http
 
+from operator import eq
+from re import A
+import re
 from flask import render_template, request, url_for, redirect, flash, jsonify,session, abort, redirect
+from requests.models import HTTPBasicAuth
+from werkzeug.wrappers import AuthorizationMixin
 from app import  app, db
 from telebot import types
 import os
+import requests
+import json
+
+# mercado livre
+import meli
+#boleto
+from gerencianet import Gerencianet
 
 #Biblioteca para o bot do telegram
 import telebot
 import urllib
 
 #configurações do bot
-chave_api = "2031294195:AAGLZVrZ4pA5w45u4fmpyRq"
+chave_api = "2031294195"
 bot = telebot.TeleBot(chave_api)
 
 #from app.models.tables import Pessoas
@@ -29,6 +41,10 @@ from app.models.tables import *
 from dotenv import load_dotenv
 load_dotenv()  # obtém variáveis ​​de ambiente de .env.
 MY_ENV_VAR = os.getenv('MY_ENV_VAR')
+env_client_id = os.getenv('env_client_id')
+env_client_secret = os.getenv('env_client_secret')
+env_client_secret_key_mercadolivre = os.getenv('env_client_secret_key_mercadolivre')
+env_google_client_id = os.getenv ('env_google_client_id')
 print(MY_ENV_VAR)
 #--------------- 
 
@@ -48,8 +64,8 @@ app.secret_key = "CodeSpecialist.com"
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-#subsituir  o cliente id abaixo por uma variavel de ambiente
-GOOGLE_CLIENT_ID = "646561352344-k00r23h9lfel4s1spjpetto3bcvr57r0.apps.googleusercontent.com"
+
+GOOGLE_CLIENT_ID = env_google_client_id
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
 flow = Flow.from_client_secrets_file(
@@ -59,18 +75,114 @@ flow = Flow.from_client_secrets_file(
 )
 
 
-#-------------------------- index --------------------------#
-#-------------------------- index --------------------------#
-#-------------------------- index --------------------------#
+#-------------------------- produtos --------------------------#
+#-------------------------- produtos --------------------------#
+#-------------------------- produtos --------------------------#
 
-#@app.route('/')
-#def login():
-#    return render_template('login.html')
+@app.route('/produtos/<seller_id>')
+def produtos(seller_id):
+    produtos = Produto.list_produtos()
 
-#@app.route('/index')
-#def index():
-#    return render_template('index.html')
+    url = 'https://api.mercadolibre.com/sites/MLB/search?seller_id='+seller_id
+    headers = {'content-type': 'application/json', 'Authorization': f'Bearer {env_client_secret_key_mercadolivre}'}
 
+    return_request = requests.get(url, headers=headers).json()
+    #print(r)
+    produtos_m = return_request['results']
+    #print(produtos_m)
+
+    return render_template('produtos.html', produtos=produtos, produtos_m=produtos_m)
+
+@app.route('/produto/carrinho/<int:codigo_produto>')
+def produto_carrinho(codigo_produto=0):
+    produto = Produto.find_produto(codigo_produto)
+
+    return render_template('carrinho.html', produto=produto)
+
+@app.route('/produto/carrinho/confirmar',methods=['POST'])
+def produto_carrinho_confirmar():
+
+    codigo_produto = int(request.form['codigo_produto'])
+    descricao_produto = request.form['descricao_produto']
+    quantidade_produto = int(request.form['quantidade_produto'])
+    cor_produto = request.form['cor_produto']
+    material_produto = request.form['material_produto']
+    tamanho_produto = float(request.form['tamanho_produto'])
+    valor_unitario_produto = int(request.form['valor_unitario_produto']) # x100 
+    cep = request.form['cep']
+    endereco = request.form['endereco']
+    bairro = request.form['bairro']
+    email = request.form['email']
+
+    #utilizand variavel de ambiente contidas em .env
+    credentials = {
+    'client_id': env_client_id,
+    'client_secret': env_client_secret,
+    'sandbox': True
+    }
+
+    #instancia objeto
+    gn = Gerencianet(credentials)
+
+    #corpo da requisicao de transacao
+    body_item = {
+        'items': [{
+            'name': descricao_produto,
+            'value': valor_unitario_produto,
+            'amount': quantidade_produto
+        }],
+        'shippings': [{
+            'name': endereco,
+            'value': 100
+        }]
+    }
+    
+    #cria cobranca
+    return_create_charge = gn.create_charge(body=body_item)
+    print(return_create_charge)
+
+
+    #monta parametros para serem usados para montar forma de pagamento
+    params = {
+        'id': return_create_charge['data']['charge_id']
+    }
+
+    #monta corpo forma de pagamento
+    body_metodo_pagamento = {
+        'payment': {
+            'banking_billet': {
+                'expire_at': '2021-11-25',
+                'customer': {
+                    'name': "Cliente DecorStadia",
+                    'email': email,
+                    'cpf': "94271564656",
+                    'birth': "2021-11-25",
+                    'phone_number': "5144916523"
+                }
+            }
+        }
+    }
+   
+    # vincula a cobranca ao metodo de pagamento
+    return_pay_change = gn.pay_charge(params=params, body=body_metodo_pagamento)
+    print(return_pay_change)
+
+    #monta paramentos consulta transacao/ passar parametro para proxima pagina para visualizar boleto
+    params = {
+        'id': return_create_charge['data']['charge_id']
+    }
+
+    #captura returno do boleto
+    return_detail_charge =  gn.detail_charge(params=params)
+
+    #captura link de acesso ao boleto
+    print(return_detail_charge['data']['payment']['banking_billet']['link'])
+    link_boleto_gerado = return_detail_charge['data']['payment']['banking_billet']['link']
+
+    #direciona ao link do boleto
+    return redirect(link_boleto_gerado)
+
+    
 #-------------------------- cliente --------------------------#
 #-------------------------- cliente --------------------------#
 #-------------------------- cliente --------------------------#
@@ -184,13 +296,31 @@ def logout():
 
 @app.route("/")
 def index():
+    
+
+    # boleto cloud 
+
+    #autenticacao
+
+    #response = requests.get("https://sandbox.boletocloud.com/api/v1/boletos/1", auth=HTTPBasicAuth('api-key_-HjldUNq88GTvINdZlsOlTzUuvzltLHTPX0ptiKwJxY=','token') )
+    #print(response.json())
+    
+    #get boleto
+    #response = requests.get("https://sandbox.boletocloud.com/api/v1/boletos/cXaB4_0zXfl1I9URR8o7j-KZZwQa1dA26i06hIp7qpk=", auth=HTTPBasicAuth('api-key_-HjldUNq88GTvINdZlsOlTzUuvzltLHTPX0ptiKwJxY=','token') )
+    #if response.status_code == 200:
+        #print("The request was a success!")
+     #   pass
+        #print(response)
+
+        
+
     #return "Hello World <a href='/login'><button>Login</button></a>"
     return render_template("index.html")
 
 @app.route("/protected_area") #
 #@login_is_required
 def protected_area():
-    
+
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
     return render_template("index.html", usuario_nome_completo=session['name'], foto_usuario=session['picture'])
@@ -199,25 +329,32 @@ def protected_area():
 #-------------------------- BOT --------------------------#
 #-------------------------- BOT --------------------------#
 
+'''def get_url():
+    contents = requests.get('https://thatcopy.pw/catapi/rest/').json()
+    image_url = contents['url']
+    return image_url'''
+
 #Opção de fotos das decorações
 def finalidades(mensagem):
-    imagens = {'HomeOffice': ['D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/homeoffice1.jpg', 'D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/homeoffice2.png'],
-                'Sala': ['D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/sala1.jpg', 'D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/sala2.jpg'],
-                'Suite': ['D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/suite1.jpg', 'D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/suite2.jpg'],
-                'Quarto': ['D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/quarto1.jpg', 'D:/Documentos/Arquivos faculdade/5Semestre/APP/DecorStadia/app/images/quarto2.jpg']
+    imagens = {'HomeOffice': ['https://thatcopy.github.io/catAPI/imgs/jpg/96aff96.jpg', 'https://thatcopy.github.io/catAPI/imgs/jpg/96aff96.jpg'],
+                'Sala': ['https://thatcopy.github.io/catAPI/imgs/jpg/96aff96.jpg', 'https://thatcopy.github.io/catAPI/imgs/jpg/96aff96.jpg'],
+                'Suite': ['https://thatcopy.github.io/catAPI/imgs/jpg/96aff96.jpg', 'https://thatcopy.github.io/catAPI/imgs/jpg/96aff96.jpg'],
+                'Quarto': ['https://thatcopy.github.io/catAPI/imgs/jpg/96aff96.jpg', 'https://thatcopy.github.io/catAPI/imgs/jpg/96aff96.jpg']
                 }
     if mensagem.text == '/HomeOffice':
-        bot.send_photo(mensagem.chat.id, photo=open(imagens['HomeOffice'][0], 'rb'))
-        bot.send_photo(mensagem.chat.id, photo=open(imagens['HomeOffice'][1], 'rb'))
+        #bot.send_photo(mensagem.chat.id, imagens['HomeOffice'][0])
+        bot.send_photo(mensagem.chat.id, imagens['HomeOffice'][0])
+        bot.send_photo(mensagem.chat.id, imagens['HomeOffice'][1])
+
     elif mensagem.text == '/Sala':
-        bot.send_photo(mensagem.chat.id, photo=open(imagens['Sala'][0], 'rb'))
-        bot.send_photo(mensagem.chat.id, photo=open(imagens['Sala'][1], 'rb'))
+        bot.send_photo(mensagem.chat.id, imagens['Sala'][0])
+        bot.send_photo(mensagem.chat.id, imagens['Sala'][1])
     elif mensagem.text == '/Suite':
-        bot.send_photo(mensagem.chat.id, photo=open(imagens['Suite'][0], 'rb'))
-        bot.send_photo(mensagem.chat.id, photo=open(imagens['Suite'][1], 'rb'))
+        bot.send_photo(mensagem.chat.id, imagens['Suite'][0])
+        bot.send_photo(mensagem.chat.id, imagens['Suite'][1])
     elif mensagem.text == '/Quarto':
-        bot.send_photo(mensagem.chat.id, photo=open(imagens['Quarto'][0], 'rb'))
-        bot.send_photo(mensagem.chat.id, photo=open(imagens['Quarto'][1], 'rb'))
+        bot.send_photo(mensagem.chat.id, imagens['Quarto'][0])
+        bot.send_photo(mensagem.chat.id, imagens['Quarto'][1])
   
 
 
@@ -261,22 +398,23 @@ def loja(mensagem):
 def designers(mensagem):
     msg = '''Gabriel: https://api.whatsapp.com/send?phone=5511846548844
 
-Priscila: https://api.whatsapp.com/send?phone=5511246548741
+    Priscila: https://api.whatsapp.com/send?phone=5511246548741
 
-Bruno: https://api.whatsapp.com/send?phone=5512246548223
+    Bruno: https://api.whatsapp.com/send?phone=5512246548223
 
-/Voltar'''
+    /Voltar'''
+
     bot.reply_to(mensagem, msg)
 
 @bot.message_handler(commands=["start"])
 def apresentacao(mensagem):
     msg = '''Olá, sou o Assistente Virtual do Decor Stadia, prazer! 😁
-Por favor, clicar na opção desejada:
+    Por favor, clicar na opção desejada:
 
-/Decoracoes - Ver decorações realizadas para os nossos clientes
-/Designer - Falar com nossos designers de interiores
-/Loja - Ir para a loja
-'''
+    /Decoracoes - Ver decorações realizadas para os nossos clientes
+    /Designer - Falar com nossos designers de interiores
+    /Loja - Ir para a loja
+    '''
     fileira = types.ReplyKeyboardMarkup(row_width=2)
     b1 = types.KeyboardButton('/Decoracoes')
     b2 = types.KeyboardButton('/Designer')
