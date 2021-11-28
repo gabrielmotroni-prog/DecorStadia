@@ -82,7 +82,7 @@ flow = Flow.from_client_secrets_file(
 @app.route('/produtos/<seller_id>')
 def produtos(seller_id):
     produtos = Produto.list_produtos()
-
+                                                                    #ex:143916881
     url = 'https://api.mercadolibre.com/sites/MLB/search?seller_id='+seller_id
     headers = {'content-type': 'application/json', 'Authorization': f'Bearer {env_client_secret_key_mercadolivre}'}
 
