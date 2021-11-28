@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   <!--fonte da google-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +11,51 @@
 
     <!-- integração login Google-->
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="861493702963-f42rn1p8oq2jpc0jk65gh066mq3o55on.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="646561352344-k00r23h9lfel4s1spjpetto3bcvr57r0.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script> 
 
 </head>
 <body>
-<style>
+<style type="text/css">
+
+    #customBtn {
+      display: inline-block;
+      background: white;
+      color: #444;
+      width: 190px;
+      border-radius: 5px;
+      border: thin solid #888;
+      box-shadow: 1px 1px 1px grey;
+      white-space: nowrap;
+    }
+    #customBtn:hover {
+      cursor: pointer;
+    }
+    span.label {
+      font-family: serif;
+      font-weight: normal;
+    }
+    span.icon {
+      background: url('https://developers-dot-devsite-v2-prod.appspot.com/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
+      display: inline-block;
+      vertical-align: middle;
+      width: 42px;
+      height: 42px;
+    }
+    span.buttonText {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 42px;
+      padding-right: 42px;
+      font-size: 14px;
+      font-weight: bold;
+      /* Use the Roboto font that is loaded in the <head> */
+      font-family: 'Roboto', sans-serif;
+    }
+
+
+
+
     body {
         background: #c68c53 }
 
@@ -35,29 +76,22 @@
 
   </style>
   <section>
-
     <h1>Decor Stadia</h1>
     
-        
+    <div class="content">
+
     <!-- integração login Google-->
-    <p><div class="g-signin2" data-onsuccess="onSignIn"></div></p><!-- botão Google-->
-    <a  href='/login'><button>Login</button></a>
-    <script>
-        function onSignIn(googleUser) {
-          // Useful data for your client-side scripts:
-          var profile = googleUser.getBasicProfile();
-          console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-          console.log('Full Name: ' + profile.getName());
-          console.log('Given Name: ' + profile.getGivenName());
-          console.log('Family Name: ' + profile.getFamilyName());
-          console.log("Image URL: " + profile.getImageUrl());
-          console.log("Email: " + profile.getEmail());
-  
-          // The ID token you need to pass to your backend:
-          var id_token = googleUser.getAuthResponse().id_token;
-          console.log("ID Token: " + id_token);
-        }
-      </script>
+    <div id="gSignInWrapper">
+      <span class="label">Entrar com:</span>
+      <div id="customBtn" class="customGPlusSignIn">
+        <a  href='/logar'>
+        <span class="icon"></span>
+        <span class="buttonText">Google</span>
+        </a>
+      </div>
+    </div>
+    <a href="/"> continuar sem conta</a>
+  </div>
   </section>
 
 

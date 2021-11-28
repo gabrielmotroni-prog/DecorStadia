@@ -1,0 +1,56 @@
+{% extends "base.html"%} <!-- ja esta trazendo todo html e sua estrutura-->
+    <!--container esta centralizando todo conteudo no meio-->
+    {% block title %} Editar Produto{% endblock%}
+    
+    {% block conteudo %}
+    <!-- Adicionando JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <div class="container"> <!--div: classe para divisao e melhor organizacao no html--> <!--container eh uma estiliacao para interagem com usuario-->
+        <h2 class="h2 text-primary">Cadastrar Produto</h2>
+        <form action="/produto/editar/salvar" method="POST" id="cadastrar_produto" name="frm_cadastrar_produto" class="ml-3 mb-3"> <!--action aciona a rota no caso vamos acionar a rota de salvamento/ post pq na rota se espera post-->
+            <input type="hidden" name="codigo_produto" value="{{produto.codigo_produto}}"> <!--campo id invisivel ao usuario-->
+            <!--grupo de formulario-->
+            <div class="form-group">
+                <label for="descricao_produto">Descrição do Produto</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="descricao_produto" value="{{produto.descricao_produto}}" required>        
+            </div>
+            <div class="form-group">
+                <label for="qtd_produto">Quantidade Atual</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="qtd_estoque" value="{{produto.qtd_estoque}}" required>        
+            </div>
+            <div class="form-group">
+                <label for="cor_produto">Cor</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="cor" value="{{produto.cor}}" required>        
+            </div>
+            <div class="form-group">
+                <label for="material_produto">Material</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="material" value="{{produto.material}}"><!-- min e max estipula minimo e maximo para o campo-->
+            </div>
+            <div class="form-group">
+                <label for="tamanho_produto">Tamanho</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="tamanho" id="tamanho" value="{{produto.tamanho}}" required>        
+            </div>
+            <div class="form-group">
+                <label for="valor_unitario_produto">Valor Unitário</label> <!-- rotulo para os campos-->
+                <input type="text" class="form-control" name="valor_unitario_produto" id="endereco" value="{{produto.valor_unitario_produto}}"  required>        
+            </div>         
+            <div class="form-group"> <!--utilizamos classe form group para os elementos que vao organizar os grupos de formulario-->
+                <label for="categoria_produto">Categoria</label>
+                <select class="form-control" name="categoria_produto"><!--utilizamos classe form-control para elementos entrada de valores-->
+                    {% for categoria_produto in categorias_produto%} <!--tras a lista de turno-->
+                     <option value="{{categoria_produto.codigo_categoria_produto}}" required>{{categoria_produto.descricao_categoria_produto}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        <div class="form-group text-center">
+        <!--link em forma de botao que cancela e volta para /listagem-->
+        <!--eh uma forma de evitar funcao js simplesemente para redirecionar a pagina com as classes de botao do Bootstramp-->
+        <a href="/produtos" class="btn btn-secondary" role="button"> Cancelar</a>
+        <!--botao salvar-->
+        <button type="submit" class="btn btn-success">Cadastrar Produto</button> <!-- submit chama a funcao post do formulario que chama a rota-->
+        </div>
+        </form>
+    </div>
+    {% endblock %}

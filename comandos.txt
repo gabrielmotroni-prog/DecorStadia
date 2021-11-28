@@ -1,18 +1,55 @@
+
+#-----------------------------------------------------------------------------------------------------------
+# flask
+#-----------------------------------------------------------------------------------------------------------
+
 pip install Flask
 pip install flask-sqlalchemy //utilizado para conexao com bancos de dados sql embarcado
 pip install flask-migrate //migracao dos dados - construcao dos nossas estrutrua de dados que sera convertida e migradaparao banco sql
 pip install flask-script // sera utiliado como apoio para termos mais recursos durante o deseolvimento
-pip install google-api-python-client
-pip install --upgrade google-api-python-client
-pip install google-auth-oauthlib
-pip install pytelegrambotapi
+
+#-----------------------------------------------------------------------------------------------------------
+# docker
+#-----------------------------------------------------------------------------------------------------------
+1) criar image
+docker image build -t gabrielmotroni/decor-stadia:v1 .
+
+2)criar container
+ docker container run -it gabrielmotroni/decor-stadia:v1
+
+#-----------------------------------------------------------------------------------------------------------
+# iniciar aplicacao pela 1ª vez do zero
+#-----------------------------------------------------------------------------------------------------------
 
 python run.py runserver #ira  executar o server
 python run.py db init #criar diretorio de migracao com toda estrtura de arquivo para isso( cria migration e app_cache )
 python run.py db migrate # iremos realizar a migracao de fato
 python run.py db upgrade # iremos tansferir essa migracao para o banco sqlite
 
+#-----------------------------------------------------------------------------------------------------------
+# iniciar aplicacao
+#-----------------------------------------------------------------------------------------------------------
+
+pip install -r requirements.txt
+
+#-----------------------------------------------------------------------------------------------------------
+# dicas para terminal
+#-----------------------------------------------------------------------------------------------------------
 cls: limpa o terminal
 cd: para navegar nas pastas
-comentario HTML,PY: Shift+ Alt+A
+comentario HTML: Shift+ Alt+A
 !+TAB: criar toda estrutura HTML
+cls: limpa o terminal
+
+#-----------------------------------------------------------------------------------------------------------
+# ambiente virtual
+#-----------------------------------------------------------------------------------------------------------
+
+1) criar
+virtualenv venv
+
+2) ativar
+source venv/bin/activate
+
+3) instalar dependecias
+pip install -r requirements.txt
