@@ -39,3 +39,5 @@ python-dotenv==0.19.1
  
 pytest==6.2.3
 responses==0.13.2
+
+gerencianet
