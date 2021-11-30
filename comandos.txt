@@ -40,6 +40,7 @@ cd: para navegar nas pastas
 comentario HTML: Shift+ Alt+A
 !+TAB: criar toda estrutura HTML
 cls: limpa o terminal
+git pull: usar frequentemente para trabalhar na versão mais atual
 
 #-----------------------------------------------------------------------------------------------------------
 # ambiente virtual
