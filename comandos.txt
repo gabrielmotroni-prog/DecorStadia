@@ -40,7 +40,7 @@ cd: para navegar nas pastas
 comentario HTML: Shift+ Alt+A
 !+TAB: criar toda estrutura HTML
 cls: limpa o terminal
-git pull: usar frequentemente para trabalhar na versão mais atual
+
 
 #-----------------------------------------------------------------------------------------------------------
 # ambiente virtual
@@ -54,3 +54,10 @@ source venv/bin/activate
 
 3) instalar dependecias
 pip install -r requirements.txt
+
+#-----------------------------------------------------------------------------------------------------------
+# comandos git
+#-----------------------------------------------------------------------------------------------------------
+
+git pull: usar frequentemente para trabalhar na versão mais atual
+git status: verificar o status do commit em relação ao projeto ahead= a frente (significa que você está bem)
