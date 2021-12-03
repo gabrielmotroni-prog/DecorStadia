@@ -1,51 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head> <!--cconfuguracoes da pagina-->
-
+<head> <!--configurações da pagina-->
+    
     <meta charset="utf-8">
     <!--visualizao 100% para facilitar a visualizao em todos os tipos de dispositivos-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- integração login Google-->
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="646561352344-k00r23h9lfel4s1spjpetto3bcvr57r0.apps.googleusercontent.com">  
+
+    <!--imposibilitar o salvamento de cache facilitando o carregamento, porque não precisaremos cache de execuções anteriores-->
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+     
+  
+    <!--fonte da google-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
     <!--link de importacao css bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-     <!--importacao js bootstrap-->
+    <!-- Css externo-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!--importacao js bootstrap-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script> 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
-     <!--imposibilitar o salvamento de cache facilitando o carregamento, pq n preciremos cache de execucoes anteriores-->
-    <meta http-equiv='cache-control' content='no-cache'>
-    <meta http-equiv='expires' content='0'>
-    <meta http-equiv='pragma' content='no-cache'>
-
-    <!-- Select2 - dropdown com pequisa -->
+    <!-- Select2 - dropdown com pesquisa -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <title>DecorStadia - {% block title %}{% endblock %}</title> <!--titulo eh variavel-->
-
-     <!--importando bibilioteca jspdf para impressao de relatorios em formato pdf -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" 
-    integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" 
-    crossorigin="anonymous"></script>
-
-    <!-- font awesome - trazendo icones-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       
-    <!--
-        boostrap jquery datable 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap.min.css"> 
-    -->
     <!--plugin jquery datable- CSS-->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
     <!--plugin jquery datable- JS-->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <!-- referencia nossas tabela para funcao plugin datatable jquey E muda propriedades do plugin-->
+    <!-- referencia nossas tabelas para funcao plugin datatable jquey e muda propriedades do plugin-->
     
-    <!--biblioteca js plotly: mt utilizada em python padrao do jupter notebook mt utilziada em anailis
-    e ciencias de dados-->
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     
     <script>
       $(document).ready(function() {
@@ -76,25 +74,17 @@
       } );
   } );
 
-    // Select2 - dropdown com pequisa
+    // Select2 - dropdown com pesquisa
+
     $(document).ready(function() {
         $('.dropdown_pesquisa').select2();
     });
   </script>
 </head>
-<style>
 
-    body{
-        background-color: #c68c53;
-        
-    }
-</style>
-<body >   
+<body>   
 
-    <!--incluindo menu principal-->
-    {%include 'nav_menu.html'%}
-    {% block conteudo %}
-    {% endblock %}
+    
 
     <!--conteudo da pagina-->
    

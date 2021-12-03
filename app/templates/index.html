@@ -1,36 +1,96 @@
-{% extends "base.html"%}  <!-- ja esta trazendo todo html e sua estrutura -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
 
-{% block title %}HOME{% endblock %} 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--link de importacao css bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Css externo-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 
-
-
-    {% block conteudo %}
-
-        
-    <!-- incluindo os arquivos componetes na 1 forma: via html -->
-  
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light margin">
     
-  <!--   incluido notificao -->
-    {%include 'components/notifications.html'%}
-
-    <div class="container">
-        <div class="form-group text-center p-5">
-          <div class="text-center"><!--div usuario-->
-            <p>Olá, {{usuario_nome_completo}} </p>
-            <img  src="{{foto_usuario}}" alt="Foto Usuario">
-          </div>
-        <div class="form-group text-center p-5"> <!--div pesquisa inspiracao-->
-          <p>Busque inspições</p>
-          <small>ex: Cozinha Industrial</small>
-          <script async src="https://cse.google.com/cse.js?cx=1190dae56c8a94d2d"></script>
-          <div id="pesquisa_google" class="gcse-search">
-          </div>  
-        </div>   
+    <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='img/home.png') }}" width="100" height="80">
+    </a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#quemsomos" class="nav-link active">Quem Somos</a>
+            </li>
+            <li class="nav-item">
+                <a href="#parceiros" class="nav-link active">Parceiros</a>
+            </li>
+            <li class="nav-item">
+                <a href="#serviços" class="nav-link active">Serviços</a>
+            </li>
+        </ul>
+    </a>
     </div>
+</nav>   
 
-    
+    <section id="quemsomos">
+        <div class="container-fluid quem-somos text-center margin">
+            <h3 class="margin">Quem Somos</h3>
+            <img src="{{ url_for('static', filename='img/brunão.png') }}" class="rounded-circle" width=300 height=300>
+            <img src="{{ url_for('static', filename='img/gabs.png') }}" class="rounded-circle" width=300 height=300>
+            <img src="{{ url_for('static', filename='img/mateus.png') }}" class="rounded-circle" width=300 height=300>
+            <img src="{{ url_for('static', filename='img/pri.png') }}" class="rounded-circle" width=300 height=300>
+            <h3>Somos um time puro brilho!!!</h3>
+        </div>
+    </section>
 
-    {% endblock %}
-    
-        
-  
+    <section id="parceiros">
+        <div class="container-fluid text-center margin parceiros">
+            <h3 class="margin">Parceiros</h3>
+            <div class="cointainer">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img src="{{ url_for('static', filename='img/google.png') }}" width=100 height=100>
+                    </div>
+                    <div class="col-lg-4">
+                        <img src="{{ url_for('static', filename='img/telegram.png') }}" width=100 height=100>
+                    </div>
+                    <div class="col-lg-4">
+                        <img src="{{ url_for('static', filename='img/mercado-livre.png') }}" class=rounded-circle width=100 height=100>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="serviços">
+        <div class="container-fluid text-center margin servicos">
+            <h3 class="margin">Serviços</h3>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <p>Não sabe o que escolher? Fale com nossos decoradores</p>
+                        <img src="{{ url_for('static', filename='img/decorador.jpg') }}" width=300 height=300>
+                    </div>
+                    <div class="col-lg-4">
+                        <p>Já descobriu o que quer? Confira nossos itens exclusivos</p>
+                        <img src="{{ url_for('static', filename='img/itens-avulsos.jpg') }}" width=300 height=300>
+                    </div>
+                    <div class="col-lg-4">
+                        <p>Receba em casa itens escolhidos a dedo de acordo com seu estilo</p>
+                        <img src="{{ url_for('static', filename='img/box-surpresa.jpg') }}" width=300 height=300>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+<footer class="container-fluid text-center bg-footer margin">
+    <p>Desenvolvido por alunos do Grupo STADIA Faculdade Impacta Tecnologia</p>
+    <h5>As cores deste site são fortes tendências em 2021 (Ocre, Roxo Cinza)</h5>
+</footer>
+
+</body>
+</html>

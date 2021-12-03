@@ -1,0 +1,39 @@
+{% extends "base.html"%}  <!-- ja esta trazendo todo html e sua estrutura -->
+
+{% block title %}Home{% endblock %} 
+
+
+
+    {% block conteudo %}
+
+        
+    <!-- incluindo os arquivos componetes na 1 forma: via html -->
+  
+    
+    <!--   incluido notificao -->
+    {%include 'components/notifications.html'%}
+
+    <!--incluindo menu principal-->
+    {%include 'nav_menu.html'%}
+
+    <div class="container">
+        <div class="form-group text-center p-5">
+          <div class="text-center"><!--div usuario-->
+            <p>Olá, {{usuario_nome_completo}} </p>
+            <img  src="{{foto_usuario}}" alt="Foto Usuario">
+          </div>
+        <div class="form-group text-center p-5"> <!--div pesquisa inspiracao-->
+          <p>Busque inspições</p>
+          <small>ex: Cozinha Industrial</small>
+          <script async src="https://cse.google.com/cse.js?cx=1190dae56c8a94d2d"></script>
+          <div id="pesquisa_google" class="gcse-search">
+          </div>  
+        </div>   
+    </div>
+
+    
+
+    {% endblock %}
+    
+        
+  
