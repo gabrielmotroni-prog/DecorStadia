@@ -95,7 +95,7 @@
   
   <div class="col-lg-4 margin-log">
     <main class="form-signin">
-      <form>
+      <form  action="/logar" method="POST" >
         <img class="mb-4" src="{{ url_for('static', filename='img/home.png') }}" width="72" height="57">
   
         <h1 class="h3 mb-3 fw-normal">Entrar</h1>
@@ -116,20 +116,19 @@
             <button class="w-100 btn btn-lg btn-primary btn-login" type="submit">Entrar</button>
   
           <!-- integração login Google-->
-     
-       <div id="gSignInWrapper">
-        <div id="customBtn" class="customGPlusSignIn">
-         
-            <span class="icon"></span>
-            <span class="buttonText">Google</span>
-            </a>
-        </div>
-        </div>    
-      
+          <div id="gSignInWrapper">
+            <div id="customBtn" class="customGPlusSignIn">
+                <a  href='/logar'>
+                <span class="icon"></span>
+                <span class="buttonText">Google</span>
+                </a>
+            </div>
+            </div>   
         </label>
         </div> 
        
       </form>
+
     </main>
     
   </div>   
