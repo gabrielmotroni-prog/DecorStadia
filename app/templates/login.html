@@ -1,85 +1,144 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <!-- Css externo e Bootstrap online-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-
-
+<head> <!--configurações da pagina-->
     
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p
-
-   <!--fonte da google-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <!--visualizao 100% para facilitar a visualizao em todos os tipos de dispositivos-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Login</title>
-
+    
     <!-- integração login Google-->
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="646561352344-k00r23h9lfel4s1spjpetto3bcvr57r0.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script> 
+    <meta name="google-signin-client_id" content="646561352344-k00r23h9lfel4s1spjpetto3bcvr57r0.apps.googleusercontent.com">  
 
+    <!--imposibilitar o salvamento de cache facilitando o carregamento, porque não precisaremos cache de execuções anteriores-->
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+     
+  
+    <!--fonte da google-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <!--link de importacao css bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Css externo-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!--importacao js bootstrap-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script> 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <!-- Select2 - dropdown com pesquisa -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <title>DecorStadia - {% block title %}{% endblock %}</title> <!--titulo eh variavel-->
+      
+    <!--plugin jquery datable- CSS-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <!--plugin jquery datable- JS-->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <!-- referencia nossas tabelas para funcao plugin datatable jquey e muda propriedades do plugin-->
+    
+    
+    <script>
+      $(document).ready(function() {
+      $('#id_tabela_listagem').DataTable( {
+
+        "language": {
+                "lengthMenu":"Mostrando _MENU_ registros por página ",
+                "info": "Mostrando página <strong style='font-size:13pt;'>_PAGE_</strong> de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(filtrado de _MAX_ registros no total)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+      } );
+  } );
+
+    // Select2 - dropdown com pesquisa
+
+    $(document).ready(function() {
+        $('.dropdown_pesquisa').select2();
+    });
+  </script>
 </head>
 
-<body class="text-center">
+<body class="text-center">   
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4"></div>
-
-<div class="col-lg-4 margin-log">
-  <main class="form-signin">
-    <form>
-      <img class="mb-4" src="{{ url_for('static', filename='img/home.png') }}" width="72" height="57">
-
-      <h1 class="h3 mb-3 fw-normal">Entrar</h1>
-
-      <div class="form-floating">
-        <input type="email" class="form-control" placeholder="nome@exemplo.com">
-        <label for="floatingInput">Endereço de email</label>
-      </div>
-      <div class="form-floating">
-        <input type="password" class="form-control" placeholder="senha">
-        <label for="floatingPassword">Senha</label>
-      </div>
-      <div class="checkbox mb-3">
-        <label class="margin">
-          <input  type="checkbox" value="Lembrar de mim">
-          Lembrar de mim
-          <a href='/logar'>  
-          <button class="w-100 btn btn-lg btn-primary btn-login" type="submit">Entrar</button>
-
-        <!-- integração login Google-->
-   
-      <div id="gSignInWrapper">
-      <div id="customBtn" class="customGPlusSignIn">
-                  
-          <span class="icon"></span>
-          <span class="buttonText">Google</span>
-          </a>
-      </div>
-      </div>    
     
-      </label>
-      </div>
-        
 
-        
- 
+    <!--conteudo da pagina-->
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4"></div>
+  
+  <div class="col-lg-4 margin-log">
+    <main class="form-signin">
+      <form>
+        <img class="mb-4" src="{{ url_for('static', filename='img/home.png') }}" width="72" height="57">
+  
+        <h1 class="h3 mb-3 fw-normal">Entrar</h1>
+  
+        <div class="form-floating">
+          <input type="email" class="form-control" placeholder="nome@exemplo.com">
+          <label for="floatingInput">Endereço de email</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" placeholder="senha">
+          <label for="floatingPassword">Senha</label>
+        </div>
+        <div class="checkbox mb-3">
+          <label class="margin">
+            <input  type="checkbox" value="Lembrar de mim">
+            Lembrar de mim
+            <a href='/'>  
+            <button class="w-100 btn btn-lg btn-primary btn-login" type="submit">Entrar</button>
+  
+          <!-- integração login Google-->
      
+       <div id="gSignInWrapper">
+        <div id="customBtn" class="customGPlusSignIn">
+         
+            <span class="icon"></span>
+            <span class="buttonText">Google</span>
+            </a>
+        </div>
+        </div>    
       
-    </form>
-  </main>
-</div>
-<div class="col-lg-4"></div>
+        </label>
+        </div> 
+       
+      </form>
+    </main>
     
+  </div>   
+ 
 </body>
 </html>
+
+  
+
 
 
 
