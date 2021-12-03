@@ -1,58 +1,66 @@
-{% extends "base.html"%} <!-- ja esta trazendo todo html e sua estrutura-->
- 
-    {% block title %} Produtos {% endblock%}
+<!-- extensao necessaria para os efeitos do menu-->
+{% extends "base.html"%} 
 
-    {% block conteudo %}
-    <!--incluindo os arquivos componetes na 1 forma: via html-->
-    <!--incluido notificao-->
-    {%include 'components/notifications.html'%}
+{% block title %} Itens {% endblock%}
+{%block conteudo%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
 
-    <!--conteudo da pagina-->
-    <!--container esta centralizando todo conteudo no meio-->
-    <div class="container"> <!--div: classe para divisao e melhor organizacao no html--> <!--container eh uma estiliacao para interagem com usuario-->
-        <h2 class="h2 text-primary mt-5 mb-3">Lista de Produtos</h2>
-        <!-- DIV da TABELA de exibicao-->
-        <div style="overflow: scroll; height: 490px; width: 109%;" align="center"> <!-- style>overflo>scroll permite criar tela de rolagem/ 100% eh a tabela ocupar toda horizontal do container-->
-            <table class="table table-bordered table-hover" id="id_tabela_listagem">
-                <thead> <!--cabecalho da tabela-->
-                    <tr><!--linha da tabela-->
-                        <th><a href="#">Foto</a></th> <!--titulo das colunas--><!--note que passamos o campo no parametro eo campo anteior vem com a listagem-->
-                        <th><a href="#">Descrição</a></th>
-                        <th><a href="#">Preço</a></th>
-                        <th><a href="#">Quantidade</a></th>
-                        <th><a href="#">Vendedor</a></th>
-                        <th><a href="#">Reputaçao</a></th>
-                        <th><a>Ações</a></th>
-                    </tr>
-                </thead>
-                <!--corpo da tabela-->
-                <tbody> <!--laco abaixo preeche a tabela-->
-                    {% for produto in produtos_m%}<!--interpolacao de execucao (pq executa codigo python)-->
-                        <tr><!-- cria uma linha para cada interacao/volta do laço for--> 
-                            <td nowrap="true" class="btn btn-white" data-toggle="modal" data-target=".bd-example-modal-lg"> <!--nowrape n quebra as linhas na exibicao dos dados/ td para cada coluna -->
-                                <img style="width: 110px" src="{{produto['thumbnail']}}" alt="sem imagem">       
-                            </td>
-                            <td nowrap="true">{{produto['title']}}</td><!--interpolacao de exibicao (pq exibe os valores do codigo python)-->
-                            <td nowrap="true">R${{produto['price']}}</td>
-                            <td nowrap="true">{{produto['available_quantity']}}</td>
-                            <td nowrap="true"><a href="{{produto['seller']['permalink']}}" target="_blank">{{produto['seller']['nickname']}}</a> </td>
-                            <td nowrap="true">{{produto['seller']['seller_reputation']['power_seller_status']}}</td>
-                            <td> <!--botao comprar-->
-                                <a href="{{produto['permalink']}}" class="btn btn-success" role="button"  target="_blank">Comprar</a> <!-- role button- assumira papel de im botao-->
-                           </td>       
-                        </tr>
-                    {%endfor%}
-                </tbody>
-            </table>
-        </div> 
-        <!-- Large modal -->
-        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                ...
-            </div>
-        </div>
-        </div>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--link de importacao css bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Css externo-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 
-    {% endblock %}
+</head>
+
+<body>
+
+  
     
+    <section style=" width: 120%;" align="center" id="serviços">
+        {%include 'nav_menu.html'%}
+        <div class="container"> <!--div: classe para divisao e melhor organizacao no html--> <!--container eh uma estiliacao para interagem com usuario-->
+            <h2 class="h2 text-white mt-5 mb-3">Lista de Itens Exclusivos</h2>
+            <!-- DIV da TABELA de exibicao-->
+            <div style="overflow: scroll; height: 490px; width: 110%; margin-left: 10px" align="center "> <!-- style>overflo>scroll permite criar tela de rolagem/ 100% eh a tabela ocupar toda horizontal do container-->
+                <table class="table table-bordered table-hover" id="id_tabela_listagem">
+                    <thead> <!--cabecalho da tabela-->
+                        <tr><!--linha da tabela-->
+                            <th><a href="#" class="text-white">Foto</a></th> <!--titulo das colunas--><!--note que passamos o campo no parametro eo campo anteior vem com a listagem-->
+                            <th><a href="#" class="text-white">Descrição</a></th>
+                            <th><a href="#" class="text-white">Preço</a></th>
+                            <th><a style="font-size:15px" href="#" class="text-white ">Quantidade</a></th>
+                            <th><a href="#" class="text-white">Vendedor</a></th>
+                            <th><a href="#" class="text-white">Reputaçao</a></th>
+                            <th><a>Ações</a></th>
+                        </tr>
+                    </thead>
+                    <!--corpo da tabela-->
+                    <tbody> <!--laco abaixo preeche a tabela-->
+                        {% for produto in produtos_m%}<!--interpolacao de execucao (pq executa codigo python)-->
+                            <tr><!-- cria uma linha para cada interacao/volta do laço for--> 
+                                <td nowrap="true" class="btn btn-white" data-toggle="modal" data-target=".bd-example-modal-lg"> <!--nowrape n quebra as linhas na exibicao dos dados/ td para cada coluna -->
+                                    <img style="width: 110px" src="{{produto['thumbnail']}}" alt="sem imagem">       
+                                </td>
+                                <td nowrap="true">{{produto['title']}}</td><!--interpolacao de exibicao (pq exibe os valores do codigo python)-->
+                                <td nowrap="true">R${{produto['price']}}</td>
+                                <td nowrap="true">{{produto['available_quantity']}}</td>
+                                <td nowrap="true"><a href="{{produto['seller']['permalink']}}" target="_blank">{{produto['seller']['nickname']}}</a> </td>
+                                <td nowrap="true">{{produto['seller']['seller_reputation']['power_seller_status']}}</td>
+                                <td> <!--botao comprar-->
+                                    <a href="{{produto['permalink']}}" class="btn btn-success" role="button"  target="_blank">Comprar</a> <!-- role button- assumira papel de im botao-->
+                               </td>       
+                            </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div> 
+    </section>
+</body>
+</html>
+{%endblock%}
+

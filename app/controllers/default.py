@@ -87,7 +87,7 @@ def produtos(seller_id):
     produtos_m = return_request['results']
     #print(produtos_m)
 
-    return render_template('produtos.html', produtos=produtos, produtos_m=produtos_m)
+    return render_template('produtos.html', produtos=produtos, produtos_m=produtos_m, usuario_nome_completo=session['name'])
 
 @app.route('/produto/carrinho/<int:codigo_produto>')
 def produto_carrinho(codigo_produto=0):
