@@ -26,7 +26,8 @@
         <div class="container"> <!--div: classe para divisao e melhor organizacao no html--> <!--container eh uma estiliacao para interagem com usuario-->
             <h2 class="h2 text-white mt-5 mb-3">Lista de Itens Exclusivos</h2>
             <!-- DIV da TABELA de exibicao-->
-            <div style="overflow: scroll; height: 490px; width: 110%; margin-left: 10px" align="center "> <!-- style>overflo>scroll permite criar tela de rolagem/ 100% eh a tabela ocupar toda horizontal do container-->
+            
+            <div style="overflow: scroll; height: 490px; width: 120%; margin-left: 10px" align="center "> <!-- style>overflo>scroll permite criar tela de rolagem/ 100% eh a tabela ocupar toda horizontal do container-->
                 <table class="table table-bordered table-hover" id="id_tabela_listagem">
                     <thead> <!--cabecalho da tabela-->
                         <tr><!--linha da tabela-->
@@ -42,6 +43,7 @@
                     <!--corpo da tabela-->
                     <tbody> <!--laco abaixo preeche a tabela-->
                         {% for produto in produtos_m%}<!--interpolacao de execucao (pq executa codigo python)-->
+                            
                             <tr><!-- cria uma linha para cada interacao/volta do laço for--> 
                                 <td nowrap="true" class="btn btn-white" data-toggle="modal" data-target=".bd-example-modal-lg"> <!--nowrape n quebra as linhas na exibicao dos dados/ td para cada coluna -->
                                     <img style="width: 110px" src="{{produto['thumbnail']}}" alt="sem imagem">       
@@ -52,13 +54,14 @@
                                 <td nowrap="true"><a href="{{produto['seller']['permalink']}}" target="_blank">{{produto['seller']['nickname']}}</a> </td>
                                 <td nowrap="true">{{produto['seller']['seller_reputation']['power_seller_status']}}</td>
                                 <td> <!--botao comprar-->
-                                    <a href="{{produto['permalink']}}" class="btn btn-success" role="button"  target="_blank">Comprar</a> <!-- role button- assumira papel de im botao-->
+                                    <a href="{{url_for('produto_carrinho', codigo_produto=produto['id']) }}" class="btn btn-success" role="button"  target="_blank">Comprar</a> <!-- role button- assumira papel de im botao-->
                                </td>       
                             </tr>
                         {%endfor%}
                     </tbody>
                 </table>
             </div> 
+     
     </section>
 </body>
 </html>

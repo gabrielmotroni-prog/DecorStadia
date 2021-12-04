@@ -1,0 +1,40 @@
+<!-- extensao necessaria para os efeitos do menu-->
+{% extends "base.html"%} 
+
+{% block title %}Principal{% endblock%}
+{%block conteudo%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--link de importacao css bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Css externo-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+<div class="list-group">
+
+    <section id="quemsomos">
+        {%include 'nav_menu.html'%}
+        <div class="container-fluid quem-somos text-center margin mb-5">
+            <h3 class="margin">Quem Somos</h3>
+            <img src="{{ url_for('static', filename='img/brunão.png') }}" class="rounded-circle" width=300 height=300>
+            <img src="{{ url_for('static', filename='img/gabs.png') }}" class="rounded-circle" width=300 height=300>
+            <img src="{{ url_for('static', filename='img/mateus.png') }}" class="rounded-circle" width=300 height=300>
+            <img src="{{ url_for('static', filename='img/pri.png') }}" class="rounded-circle" width=300 height=300>
+            <h3>Somos um time puro brilho!!!</h3>
+        </div>
+    </section>
+</div>
+
+
+</body>
+</html>
+{%endblock%}
+

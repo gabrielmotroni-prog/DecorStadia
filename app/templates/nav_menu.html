@@ -24,8 +24,6 @@
           Produto
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Cadastrar Produto</a>
-          <a class="dropdown-item" href="#">Lista de Produtos</a>
          <a class="dropdown-item" href="">Comprar</a>
         </div>
       </li>
@@ -34,8 +32,7 @@
           Quem Somos
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Cadastrar Pedido</a>
-          <a class="dropdown-item" href="#">Lista de Pedido</a>
+          <a class="dropdown-item" href="{{url_for('quem_somos')}}">Quem Somos</a>
         </div>
       </li>
     </ul>
@@ -43,9 +40,10 @@
   <nav class="navbar navbar-light bg-light w-200">
     {%if usuario_nome_completo is not none %}
     <a class="dropdown-item" href="#">{{usuario_nome_completo}}</a>
-    <a href='/logout' role="button" class="btn btn-ligth">Sair</a>  
+    <a href='/logout' role="button" class="btn btn-ligth">Sair</a>
+    <img src="{{foto_usuario}}" alt=""> 
     {%else%}
-        <p>acessar</p>
+      <a href="{{url_for('login')}}">acessar minha conta</a>
     {%endif%}
   </nav>
 </nav>

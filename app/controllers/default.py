@@ -89,26 +89,33 @@ def produtos(seller_id):
 
     return render_template('produtos.html', produtos=produtos, produtos_m=produtos_m, usuario_nome_completo=session['name'])
 
-@app.route('/produto/carrinho/<int:codigo_produto>')
-def produto_carrinho(codigo_produto=0):
-    produto = Produto.find_produto(codigo_produto)
+@app.route('/produto/carrinho/<codigo_produto>')
+def produto_carrinho(codigo_produto):
+    #produto = Produto.find_produto(codigo_produto)
 
-    return render_template('carrinho.html', produto=produto)
+    #requisao ao mercado livre
+    url = 'https://api.mercadolibre.com/items?ids='+codigo_produto
+    headers = {'content-type': 'application/json', 'Authorization': f'Bearer {env_client_secret_key_mercadolivre}'}
+
+    #retorno convertendo para json
+    return_request = requests.get(url, headers=headers).json()
+
+    #seta unico produto selecionado
+    produto_selecionado = return_request[0]
+    
+    return render_template('carrinho.html', produto=produto_selecionado)
 
 @app.route('/produto/carrinho/confirmar',methods=['POST'])
 def produto_carrinho_confirmar():
 
-    codigo_produto = int(request.form['codigo_produto'])
+    codigo_produto = request.form['codigo_produto']
     descricao_produto = request.form['descricao_produto']
     quantidade_produto = int(request.form['quantidade_produto'])
-    cor_produto = request.form['cor_produto']
-    material_produto = request.form['material_produto']
-    tamanho_produto = float(request.form['tamanho_produto'])
-    valor_unitario_produto = int(request.form['valor_unitario_produto']) # x100 
-    cep = request.form['cep']
+    valor_unitario_produto = float(request.form['valor_unitario_produto']) # x100 
     endereco = request.form['endereco']
-    bairro = request.form['bairro']
     email = request.form['email']
+    print(valor_unitario_produto)
+    print(valor_unitario_produto)
 
     #utilizand variavel de ambiente contidas em .env
     credentials = {
@@ -124,8 +131,8 @@ def produto_carrinho_confirmar():
     body_item = {
         'items': [{
             'name': descricao_produto,
-            'value': valor_unitario_produto,
-            'amount': quantidade_produto
+            'value': valor_unitario_produto*100, # necessario multiplicar por 100 por conta API dar ruim com decimais
+            'amount': quantidade_produto 
         }],
         'shippings': [{
             'name': endereco,
@@ -135,9 +142,10 @@ def produto_carrinho_confirmar():
     
     #cria cobranca
     return_create_charge = gn.create_charge(body=body_item)
-    print(return_create_charge)
+    #print(return_create_charge)
 
-
+    print(return_create_charge['code'])
+    
     #monta parametros para serem usados para montar forma de pagamento
     params = {
         'id': return_create_charge['data']['charge_id']
@@ -147,12 +155,12 @@ def produto_carrinho_confirmar():
     body_metodo_pagamento = {
         'payment': {
             'banking_billet': {
-                'expire_at': '2021-11-25',
+                'expire_at': '2021-12-25',
                 'customer': {
                     'name': "Cliente DecorStadia",
                     'email': email,
                     'cpf': "94271564656",
-                    'birth': "2021-11-25",
+                    'birth': "2000-12-25",
                     'phone_number': "5144916523"
                 }
             }
@@ -320,6 +328,16 @@ def protected_area():
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
     #return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
     return render_template("index.html", usuario_nome_completo=session['name'], foto_usuario=session['picture'])
+
+
+#-------------------------- quem somos --------------------------#
+#-------------------------- quem somos --------------------------#
+#-------------------------- quem somos --------------------------#
+
+
+@app.route('/quemsomos')
+def quem_somos():
+    return render_template("quem_somos.html")
 
 #-------------------------- BOT --------------------------#
 #-------------------------- BOT --------------------------#
